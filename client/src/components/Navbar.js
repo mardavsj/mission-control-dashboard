@@ -1,10 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const location = useLocation();
 
   const handleLogout = () => {
     logout();

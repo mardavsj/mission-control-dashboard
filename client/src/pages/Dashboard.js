@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Dashboard.css';
@@ -11,17 +11,7 @@ const Dashboard = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [userRole, setUserRole] = useState('user');
 
-  useEffect(() => {
-    fetchMissions();
-    // Get user role from token
-    const token = localStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      setUserRole(payload.role);
-    }
-  }, [currentPage]);
-
-  const fetchMissions = async () => {
+  const fetchMissions = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(`http://localhost:5000/api/missions?page=${currentPage}`, {
@@ -34,7 +24,16 @@ const Dashboard = () => {
       setError('Failed to fetch missions');
       setLoading(false);
     }
-  };
+  }, [currentPage]);
+
+  useEffect(() => {
+    fetchMissions();
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUserRole(payload.role);
+    }
+  }, [currentPage, fetchMissions]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);

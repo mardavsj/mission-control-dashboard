@@ -9,7 +9,6 @@ import MissionDetails from './pages/MissionDetails';
 import './styles/App.css';
 import './styles/Auth.css';
 
-// Protected Route component
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -29,7 +28,6 @@ const ProtectedRoute = ({ children }) => {
   );
 };
 
-// Public Route component (no navbar)
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
 

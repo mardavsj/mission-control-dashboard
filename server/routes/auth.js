@@ -5,22 +5,18 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { auth } = require('../middleware/auth');
 
-// Register new user
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password, isAdmin } = req.body;
 
-    // Check if user already exists
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Check if this is the first user
     const userCount = await User.countDocuments();
     const isFirstUser = userCount === 0;
 
-    // If user wants to be admin, verify admin password
     if (isAdmin && !isFirstUser) {
       const adminPassword = req.body.adminPassword;
       if (adminPassword !== 'missionctrl') {
@@ -28,7 +24,6 @@ router.post('/register', async (req, res) => {
       }
     }
 
-    // Create new user
     user = new User({
       username,
       email,
@@ -36,10 +31,8 @@ router.post('/register', async (req, res) => {
       role: isFirstUser || isAdmin ? 'admin' : 'user'
     });
 
-    // Save user
     await user.save();
 
-    // Create JWT token
     const payload = {
       userId: user._id,
       role: user.role
@@ -68,24 +61,20 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Verify password using the model's method
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Create JWT token
     const payload = {
       userId: user._id,
       role: user.role
@@ -114,7 +103,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get current user
 router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');

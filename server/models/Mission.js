@@ -23,11 +23,11 @@ const missionSchema = new mongoose.Schema({
     type: Date
   },
   duration: {
-    type: Number, // Duration in minutes
+    type: Number,
     default: 0
   },
   timer: {
-    type: Number, // Elapsed time in seconds
+    type: Number,
     default: 0
   },
   timerRunning: {
@@ -83,13 +83,11 @@ const missionSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Method to add error log
 missionSchema.methods.addErrorLog = function(message, severity = 'info', userId = null) {
   this.errorLogs.push({ message, severity, user: userId });
   return this.save();
 };
 
-// Method to complete mission
 missionSchema.methods.complete = function() {
   this.status = 'completed';
   this.endTime = new Date();
@@ -98,7 +96,6 @@ missionSchema.methods.complete = function() {
   return this.save();
 };
 
-// Method to start timer
 missionSchema.methods.startTimer = function() {
   if (!this.timerRunning) {
     this.timerRunning = true;
@@ -108,7 +105,6 @@ missionSchema.methods.startTimer = function() {
   return Promise.resolve(this);
 };
 
-// Method to stop timer
 missionSchema.methods.stopTimer = function() {
   if (this.timerRunning) {
     this.timerRunning = false;
@@ -121,7 +117,6 @@ missionSchema.methods.stopTimer = function() {
   return Promise.resolve(this);
 };
 
-// Method to get current timer value
 missionSchema.methods.getCurrentTimer = function() {
   if (this.timerRunning) {
     const now = new Date();
@@ -131,14 +126,12 @@ missionSchema.methods.getCurrentTimer = function() {
   return this.timer;
 };
 
-// Method to update timer
 missionSchema.methods.updateTimer = function(seconds) {
   this.timer = seconds;
   this.lastTimerUpdate = new Date();
   return this.save();
 };
 
-// Method to add participant
 missionSchema.methods.addParticipant = function(userId) {
   if (!this.participants.some(p => p.user.toString() === userId.toString())) {
     this.participants.push({ user: userId });
@@ -147,7 +140,6 @@ missionSchema.methods.addParticipant = function(userId) {
   return Promise.resolve(this);
 };
 
-// Method to remove participant
 missionSchema.methods.removeParticipant = function(userId) {
   const participant = this.participants.find(p => p.user.toString() === userId.toString());
   if (participant) {
@@ -157,7 +149,6 @@ missionSchema.methods.removeParticipant = function(userId) {
   return Promise.resolve(this);
 };
 
-// Method to update participant status
 missionSchema.methods.updateParticipantStatus = function(userId, status) {
   const participant = this.participants.find(p => p.user.toString() === userId.toString());
   if (participant) {

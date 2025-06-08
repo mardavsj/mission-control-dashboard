@@ -3,7 +3,6 @@ const router = express.Router();
 const Mission = require('../models/Mission');
 const { auth, adminAuth } = require('../middleware/auth');
 
-// Get all missions (paginated)
 router.get('/', auth, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -12,7 +11,6 @@ router.get('/', auth, async (req, res) => {
 
     const query = {};
     if (req.user.role !== 'admin') {
-      // For regular users, only show missions they can participate in
       query.status = 'active';
     }
 
@@ -37,7 +35,6 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// Create new mission (admin only)
 router.post('/', adminAuth, async (req, res) => {
   try {
     const mission = new Mission({
@@ -51,7 +48,6 @@ router.post('/', adminAuth, async (req, res) => {
   }
 });
 
-// Get mission by ID
 router.get('/:id', auth, async (req, res) => {
   try {
     const mission = await Mission.findById(req.params.id)
@@ -69,7 +65,6 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// Update mission (admin only)
 router.put('/:id', adminAuth, async (req, res) => {
   try {
     const mission = await Mission.findByIdAndUpdate(
@@ -88,7 +83,6 @@ router.put('/:id', adminAuth, async (req, res) => {
   }
 });
 
-// Delete mission (admin only)
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
     const mission = await Mission.findByIdAndDelete(req.params.id);
@@ -103,7 +97,6 @@ router.delete('/:id', adminAuth, async (req, res) => {
   }
 });
 
-// Join mission
 router.post('/:id/join', auth, async (req, res) => {
   try {
     const mission = await Mission.findById(req.params.id);
@@ -123,7 +116,6 @@ router.post('/:id/join', auth, async (req, res) => {
   }
 });
 
-// Leave mission
 router.post('/:id/leave', auth, async (req, res) => {
   try {
     const mission = await Mission.findById(req.params.id);
@@ -139,7 +131,6 @@ router.post('/:id/leave', auth, async (req, res) => {
   }
 });
 
-// Add error log
 router.post('/:id/logs', auth, async (req, res) => {
   try {
     const { message, severity } = req.body;
@@ -156,7 +147,6 @@ router.post('/:id/logs', auth, async (req, res) => {
   }
 });
 
-// Complete mission (admin only)
 router.post('/:id/complete', adminAuth, async (req, res) => {
   try {
     const mission = await Mission.findById(req.params.id);
@@ -172,7 +162,6 @@ router.post('/:id/complete', adminAuth, async (req, res) => {
   }
 });
 
-// Timer routes
 router.post('/:id/timer/start', adminAuth, async (req, res) => {
   try {
     const mission = await Mission.findById(req.params.id);

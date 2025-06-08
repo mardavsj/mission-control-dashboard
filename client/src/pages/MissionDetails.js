@@ -21,7 +21,6 @@ const MissionDetails = () => {
 
   useEffect(() => {
     fetchMission();
-    // Check if user is admin
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -39,12 +38,10 @@ const MissionDetails = () => {
 
   useEffect(() => {
     if (isTimerRunning) {
-      // Start local timer for UI updates
       timerRef.current = setInterval(() => {
         setTimer(prev => prev + 1);
       }, 1000);
 
-      // Sync with server every 10 seconds
       syncTimerRef.current = setInterval(() => {
         syncTimerWithServer();
       }, 10000);
@@ -79,7 +76,6 @@ const MissionDetails = () => {
       });
       setMission(response.data);
       
-      // Get current timer state
       const timerResponse = await axios.get(`http://localhost:5000/api/missions/${id}/timer`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -141,7 +137,6 @@ const MissionDetails = () => {
 
     try {
       const token = localStorage.getItem('token');
-      // Stop timer before completing
       if (isTimerRunning) {
         await handleTimerToggle();
       }

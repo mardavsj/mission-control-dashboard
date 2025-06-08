@@ -43,10 +43,9 @@ const Register = () => {
     try {
       await register(formData.username, formData.email, formData.password, isAdmin);
       setSuccess('Registration successful! Redirecting to login...');
-      // Wait for 2 seconds to show the success message before redirecting
       setTimeout(() => {
         navigate('/login');
-      }, 2000);
+      }, 1000);
     } catch (err) {
       setError(err.message || 'Error registering user');
     }

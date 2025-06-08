@@ -17,19 +17,19 @@ const MissionForm = () => {
   const isEditMode = Boolean(id);
 
   useEffect(() => {
+    const fetchMission = async () => {
+      try {
+        const response = await missionsAPI.getOne(id);
+        setFormData(response.data);
+      } catch (err) {
+        setError('Failed to fetch mission details');
+      }
+    };
+
     if (isEditMode) {
       fetchMission();
     }
-  }, [id]);
-
-  const fetchMission = async () => {
-    try {
-      const response = await missionsAPI.getOne(id);
-      setFormData(response.data);
-    } catch (err) {
-      setError('Failed to fetch mission details');
-    }
-  };
+  }, [id, isEditMode]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

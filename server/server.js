@@ -4,18 +4,14 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 
-// Load environment variables
 dotenv.config();
 
-// Create Express app
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// MongoDB Connection Options
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -23,7 +19,6 @@ const mongooseOptions = {
   socketTimeoutMS: 45000,
 };
 
-// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, mongooseOptions)
   .then(() => {
     console.log('Connected to MongoDB Atlas');
@@ -35,7 +30,6 @@ mongoose.connect(process.env.MONGODB_URI, mongooseOptions)
     process.exit(1);
   });
 
-// Handle MongoDB connection events
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
 });
@@ -55,17 +49,14 @@ process.on('SIGINT', async () => {
   }
 });
 
-// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/missions', require('./routes/missions'));
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
