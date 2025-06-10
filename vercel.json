@@ -16,6 +16,6 @@
     }
   ],
   "env": {
-    "REACT_APP_APIURL": "@react_app_apiurl"
+    "REACT_APP_API_URL": "@react_app_api_url"
   }
 } 
