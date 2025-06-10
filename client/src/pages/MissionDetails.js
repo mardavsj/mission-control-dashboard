@@ -4,6 +4,8 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import '../styles/MissionDetails.css';
 
+const API_URL = process.env.REACT_APP_APIURL || 'http://localhost:5000';
+
 const MissionDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,6 +21,41 @@ const MissionDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const timerRef = useRef(null);
   const syncTimerRef = useRef(null);
+
+  const fetchMission = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/api/missions/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMission(response.data);
+      
+      const timerResponse = await axios.get(`${API_URL}/api/missions/${id}/timer`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setTimer(timerResponse.data.timer);
+      setIsTimerRunning(timerResponse.data.isRunning);
+    } catch (err) {
+      setError('Failed to fetch mission details');
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  const syncTimerWithServer = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        `${API_URL}/api/missions/${id}/timer`,
+        { seconds: timer },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+    } catch (err) {
+      console.error('Failed to sync timer:', err);
+    }
+  }, [id, timer]);
 
   useEffect(() => {
     fetchMission();
@@ -69,41 +106,6 @@ const MissionDetails = () => {
     };
   }, [isTimerRunning, syncTimerWithServer]);
 
-  const fetchMission = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/missions/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setMission(response.data);
-      
-      const timerResponse = await axios.get(`http://localhost:5000/api/missions/${id}/timer`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTimer(timerResponse.data.timer);
-      setIsTimerRunning(timerResponse.data.isRunning);
-    } catch (err) {
-      setError('Failed to fetch mission details');
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
-
-  const syncTimerWithServer = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        `http://localhost:5000/api/missions/${id}/timer`,
-        { seconds: timer },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-    } catch (err) {
-      console.error('Failed to sync timer:', err);
-    }
-  }, [id, timer]);
-
   const handleTimerToggle = async () => {
     if (!isAdmin) {
       setAdminMessage('Only admins can control the mission timer');
@@ -115,7 +117,7 @@ const MissionDetails = () => {
       const token = localStorage.getItem('token');
       const endpoint = isTimerRunning ? 'stop' : 'start';
       const response = await axios.post(
-        `http://localhost:5000/api/missions/${id}/timer/${endpoint}`,
+        `${API_URL}/api/missions/${id}/timer/${endpoint}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -143,7 +145,7 @@ const MissionDetails = () => {
       }
       
       await axios.post(
-        `http://localhost:5000/api/missions/${id}/complete`,
+        `${API_URL}/api/missions/${id}/complete`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -160,7 +162,7 @@ const MissionDetails = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:5000/api/missions/${id}/logs`,
+        `${API_URL}/api/missions/${id}/logs`,
         {
           message: logMessage,
           severity: logSeverity

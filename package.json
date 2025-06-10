@@ -1,4 +1,12 @@
 {
+  "name": "mission-control-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "start": "cd client && npm start",
+    "install-all": "npm install && cd client && npm install"
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -8,5 +16,8 @@
     "axios": "^1.9.0",
     "date-fns": "^4.1.0",
     "react-router-dom": "^7.6.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
