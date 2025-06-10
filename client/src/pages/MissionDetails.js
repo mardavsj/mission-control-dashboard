@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -35,7 +35,7 @@ const MissionDetails = () => {
         clearInterval(syncTimerRef.current);
       }
     };
-  }, [id]);
+  }, [id, fetchMission]);
 
   useEffect(() => {
     if (isTimerRunning) {
@@ -67,9 +67,9 @@ const MissionDetails = () => {
         syncTimerRef.current = null;
       }
     };
-  }, [isTimerRunning]);
+  }, [isTimerRunning, syncTimerWithServer]);
 
-  const fetchMission = async () => {
+  const fetchMission = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(`http://localhost:5000/api/missions/${id}`, {
@@ -87,9 +87,9 @@ const MissionDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
-  const syncTimerWithServer = async () => {
+  const syncTimerWithServer = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
@@ -102,7 +102,7 @@ const MissionDetails = () => {
     } catch (err) {
       console.error('Failed to sync timer:', err);
     }
-  };
+  }, [id, timer]);
 
   const handleTimerToggle = async () => {
     if (!isAdmin) {
