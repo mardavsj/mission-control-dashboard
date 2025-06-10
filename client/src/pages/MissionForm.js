@@ -12,6 +12,7 @@ const MissionForm = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
@@ -60,6 +61,22 @@ const MissionForm = () => {
 
   return (
     <div className="mission-form-container">
+      <button
+        className="click-me-btn-n"
+        onClick={() => setShowModal(!showModal)}
+      >
+        🥺 Click Me
+      </button>
+
+      {showModal && (
+        <div className="info-modal-n">
+          <div className="modal-n-content">
+            <h1>Updating mission form 😎</h1>
+            <p>Add more fields like - start date & end date.</p>
+            <p>Add a file upload option for mission-related documents.</p>
+          </div>
+        </div>
+      )}
       <h1 className="mission-form-title">
         {isEditMode ? 'Edit Mission' : 'Create New Mission'}
       </h1>

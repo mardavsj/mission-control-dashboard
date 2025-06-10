@@ -16,6 +16,7 @@ const MissionDetails = () => {
   const [logSeverity, setLogSeverity] = useState('info');
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminMessage, setAdminMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const timerRef = useRef(null);
   const syncTimerRef = useRef(null);
 
@@ -210,6 +211,23 @@ const MissionDetails = () => {
 
   return (
     <div className="mission-details">
+      <button
+        className="click-me-btn-m"
+        onClick={() => setShowModal(!showModal)}
+      >
+        🥺 Click Me
+      </button>
+
+      {showModal && (
+        <div className="info-modal-m">
+          <div className="modal-m-content">
+            <h2>This Deadline 😭</h2>
+            <h1>Let's add these things 🤔</h1>
+            <p>Can have a comment section below the mission logs, allowing users to discuss and provide feedback on the mission's progress.</p>
+            <p>Finally, we can introduce a voting system for the logs, enabling users to upvote or downvote entries based on their relevance and usefulness.</p>
+          </div>
+        </div>
+      )}
       {adminMessage && (
         <div className="admin-message">
           {adminMessage}
@@ -221,13 +239,13 @@ const MissionDetails = () => {
           onClick={() => navigate('/dashboard')}
           className="back-button"
         >
-          Back to Dashboard
+          ↩ Back to Dashboard
         </button>
       </div>
 
       <div className="mission-grid">
         <div className="mission-card mission-details-card">
-          <h2 className="card-title">Mission Details</h2>
+          <h2 className="card-title">Details</h2>
           <div className="detail-row">
             <div className="detail-group">
               <span className="detail-label">Status</span>
@@ -262,7 +280,7 @@ const MissionDetails = () => {
           {mission.status === 'active' && (
             <button
               onClick={handleComplete}
-              className="btn btn-primary"
+              className="btn btn-secondary"
             >
               Complete Mission
             </button>
@@ -271,7 +289,7 @@ const MissionDetails = () => {
 
         <div className="mission-bottom-grid">
           <div className="mission-card mission-timer-card">
-            <h2 className="card-title">Mission Timer</h2>
+            <h2 className="card-title">Timer</h2>
             <div className="mission-timer">
               {formatTime(timer)}
             </div>
@@ -286,7 +304,7 @@ const MissionDetails = () => {
           </div>
 
           <div className="mission-card mission-logs-card">
-            <h2 className="card-title">Mission Logs</h2>
+            <h2 className="card-title">Logs</h2>
             <div className="logs-container">
               {mission.logs?.map((log, index) => (
                 <div key={index} className={`log-entry log-${log.severity}`}>
@@ -313,7 +331,7 @@ const MissionDetails = () => {
                 <option value="warning">Warning</option>
                 <option value="error">Error</option>
               </select>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-secondary">
                 Add Log
               </button>
             </form>

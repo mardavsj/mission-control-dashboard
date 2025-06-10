@@ -1,10 +1,12 @@
 .auth-container {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
-  padding: 20px;
+  background: #8b5cf6;
+  padding: 2rem;
+  position: relative;
 }
 
 .auth-card {
@@ -161,7 +163,6 @@
   margin-top: 5px;
 }
 
-/* Loading animation */
 .loading-spinner {
   width: 20px;
   height: 20px;
@@ -175,4 +176,65 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.click-me-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background-color: white;
+  color: #6366f1;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.click-me-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.info-modal {
+  position: absolute;
+  top: 6rem;
+  right: 2rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  width: 350px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  animation: slideDown 0.3s ease-out;
+}
+
+.modal-content h2 {
+  color: #4f46e5;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.modal-content h1 {
+  color: #4f46e5;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.modal-content p {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 } 

@@ -7,6 +7,58 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.click-me-btn-n {
+  position: absolute;
+  right: 10rem;
+  background-color: var(--primary-light);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.click-me-btn-n:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background-color: var(--primary);
+}
+
+.info-modal-n {
+  position: absolute;
+  top: 12rem;
+  right: 10rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  width: 400px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  animation: slideDown 0.3s ease-out;
+}
+
+.modal-n-content h2 {
+  color: #4f46e5;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.modal-n-content h1 {
+  color: #4f46e5;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.modal-n-content p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
 .mission-form-title {
   font-size: 1.5rem;
   font-weight: 600;
@@ -55,8 +107,8 @@
   pointer-events: none;
 }
 
-.form-input:focus + .form-label,
-.form-input:not(:placeholder-shown) + .form-label {
+.form-input:focus+.form-label,
+.form-input:not(:placeholder-shown)+.form-label {
   top: 0;
   font-size: 0.875rem;
   color: #6366f1;
@@ -96,7 +148,7 @@ textarea.form-input {
   transition: transform 0.2s ease;
 }
 
-.select-wrapper select.form-input:focus + .form-label {
+.select-wrapper select.form-input:focus+.form-label {
   color: #6366f1;
 }
 
@@ -182,7 +234,35 @@ textarea.form-input {
     padding: 1rem;
   }
 
+  .click-me-btn-n {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    background-color: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .info-modal-n {
+    position: absolute;
+    left: 2rem;
+    top: 26rem;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    z-index: 10;
+    animation: slideDown 0.3s ease-out;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
   }
-} 
+}

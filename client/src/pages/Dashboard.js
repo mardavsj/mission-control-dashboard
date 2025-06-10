@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userRole, setUserRole] = useState('user');
+  const [showModal, setShowModal] = useState(false);
 
   const fetchMissions = useCallback(async () => {
     try {
@@ -77,6 +78,24 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+      <button
+        className="click-me-btns"
+        onClick={() => setShowModal(!showModal)}
+      >
+        🥺 Click Me
+      </button>
+
+      {showModal && (
+        <div className="info-modals">
+          <div className="modals-content">
+            <h2>Tight Deadline Again 😆</h2>
+            <h1>Future Scope Here 🤔</h1>
+            <p>Realtime badges and notifications on the mission cards related to every activity taking place.</p>
+            <p>Two timers side by side - One expected deadline set by the admin, another the timer of the user as soon as he/she joins the mission.</p>
+          </div>
+        </div>
+      )}
+
       <div className="dashboard-header">
         <h1>Mission Control Dashboard</h1>
         {userRole === 'admin' && (

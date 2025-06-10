@@ -8,6 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -28,6 +29,24 @@ const Login = () => {
 
   return (
     <div className="auth-container">
+      <button 
+        className="click-me-btn"
+        onClick={() => setShowModal(!showModal)}
+      >
+        🥺 Click Me
+      </button>
+
+      {showModal && (
+        <div className="info-modal">
+          <div className="modal-content">
+            <h2>Tight deadline 🥲</h2>
+            <h1>What more could I have done?😃</h1>
+            <p>Forgot Password Button - Would have Implemented with the help of nodemailer.</p>
+            <p>Working - When clicked asks for the email id and sends the reset password link directly to the user's email.</p>
+          </div>
+        </div>
+      )}
+
       <div className="auth-card">
         <div className="auth-header">
           <h1>Welcome Back</h1>

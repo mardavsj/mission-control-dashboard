@@ -16,6 +16,7 @@ const Register = () => {
   const [adminPassword, setAdminPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +54,24 @@ const Register = () => {
 
   return (
     <div className="auth-container">
+      <button 
+        className="click-me-btn"
+        onClick={() => setShowModal(!showModal)}
+      >
+        🥺 Click Me
+      </button>
+
+      {showModal && (
+        <div className="info-modal">
+          <div className="modal-content">
+            <h2>Tight Deadline 🥲</h2>
+            <h1>What more I was thinking of adding here? 🤔</h1>
+            <p>Google & Github direct Sign in buttons for quick access.</p>
+            <p>To be honest I would have used Clerk Authentication for faster and secure authentication. (Then just going to update the user interface with my own custom one)</p>
+          </div>
+        </div>
+      )}
+
       <div className="auth-card">
         <div className="auth-header">
           <h1>Create Account</h1>
