@@ -4,7 +4,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import '../styles/MissionDetails.css';
 
-const API_URL = process.env.REACT_APP_APIURL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const MissionDetails = () => {
   const { id } = useParams();
